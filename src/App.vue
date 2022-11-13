@@ -3,12 +3,12 @@
       <div v-if="showModal" @click.self="showModal = false" class="overlay">
          <div class="modal">
             <input
-               v-model="newNote.title"
+               v-model.trim="newNote.title"
                type="text"
                placeholder="Enter a title..."
             />
             <textarea
-               v-model="newNote.body"
+               v-model.trim="newNote.body"
                name="note"
                id="note"
                placeholder="Enter note text..."
@@ -182,6 +182,7 @@ h1 {
 
 .card-title {
    font-weight: bold;
+   font-size: 28px;
 }
 
 .card-date {
