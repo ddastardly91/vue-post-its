@@ -163,10 +163,11 @@ h1 {
 .cards-container {
    display: flex;
    flex-wrap: wrap;
+   justify-content: center;
 }
 
 .card {
-   width: 225px;
+   width: 280px;
    height: 225px;
    background-color: teal;
    padding: 10px;
@@ -260,9 +261,20 @@ button {
 }
 
 /* Mobile Phones */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 780px) {
    .card {
       width: 100%;
+   }
+}
+
+@media only screen and (min-width: 780px) {
+   .card {
+      width: 350px;
+   }
+}
+@media only screen and (min-width: 1150px) {
+   .card {
+      width: 20%;
    }
 }
 </style>
