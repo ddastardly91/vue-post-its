@@ -1,39 +1,35 @@
 <template>
    <main>
-      <div
-         v-if="showModal"
-         @click.self="showModal = !showModal"
-         class="overlay"
-      >
+      <div v-if="showModal" @click.self="showModal = false" class="overlay">
          <div class="modal">
-            <input type="text" placeholder="Enter a title..." />
+            <input
+               v-model="newNote.title"
+               type="text"
+               placeholder="Enter a title..."
+            />
             <textarea
+               v-model="newNote.body"
                name="note"
                id="note"
                placeholder="Enter note text..."
             ></textarea>
-            <button>Add Note</button>
+            <span class="modal-error" v-if="newNoteError[1]">{{
+               newNoteError[0]
+            }}</span>
+            <button @click="addNote">Add Note</button>
          </div>
       </div>
       <div class="container">
          <header>
             <h1>Notes</h1>
-            <button @click="showModal = !showModal" class="btn-add">+</button>
+            <button @click="showModal = true" class="btn-add">+</button>
          </header>
          <div class="cards-container">
             <div class="card">
-               <h3 class="card-title">Lorem</h3>
+               <h3 class="card-title">This is a note</h3>
                <p class="card-body">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Soluta nesciunt nisi numquam officiis.
-               </p>
-               <p class="card-date">13/11/22</p>
-            </div>
-            <div class="card">
-               <h3 class="card-title">Lorem</h3>
-               <p class="card-body">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Soluta nesciunt nisi numquam officiis.
+                  To create a note like this click on the add note button in the
+                  top-right corner, you can then add a title and body text.
                </p>
                <p class="card-date">13/11/22</p>
             </div>
@@ -46,6 +42,71 @@
 import { ref } from "vue";
 
 const showModal = ref(false);
+const newNoteError = ref(["Something went wrong.", false]);
+const newNote = ref({ title: "", body: "" });
+const notes = ref([]);
+
+const addNote = () => {
+   if (newNote.value.title == "") {
+      newNoteError.value[0] = "You must enter a title.";
+      newNoteError.value[1] = true;
+
+      setTimeout(() => {
+         newNoteError.value[1] = false;
+      }, 4000);
+
+      return false;
+   }
+
+   if (newNote.value.body == "") {
+      newNoteError.value[0] = "You must enter some note text.";
+      newNoteError.value[1] = true;
+
+      setTimeout(() => {
+         newNoteError.value[1] = false;
+      }, 4000);
+
+      return false;
+   }
+
+   if (newNote.value.title.length < 3) {
+      newNoteError.value[0] = "Title must contain at least 3 characters.";
+      newNoteError.value[1] = true;
+
+      setTimeout(() => {
+         newNoteError.value[1] = false;
+      }, 4000);
+
+      return false;
+   }
+
+   if (newNote.value.body.length < 8) {
+      newNoteError.value[0] = "Body must contain at least 8 characters.";
+      newNoteError.value[1] = true;
+
+      setTimeout(() => {
+         newNoteError.value[1] = false;
+      }, 4000);
+
+      return false;
+   }
+
+   notes.value.push({
+      id: Math.random(),
+      title: newNote.value.title,
+      body: newNote.value.body,
+      date: new Date(),
+      background: getRandomColor(),
+   });
+
+   newNote.value = {};
+   showModal.value = false;
+};
+
+const getRandomColor = () => {
+   const color = "hsl(" + Math.random() * 360 + ", 100%, 75%)";
+   return color;
+};
 </script>
 
 <style scoped>
@@ -174,6 +235,12 @@ h1 {
    border-radius: 15px;
    font-weight: bold;
    font-size: 18px;
+}
+
+.modal-error {
+   color: tomato;
+   font-size: 16px;
+   margin-bottom: 15px;
 }
 
 button {
