@@ -31,7 +31,19 @@
                   To create a note like this click on the add note button in the
                   top-right corner, you can then add a title and body text.
                </p>
-               <p class="card-date">13/11/22</p>
+               <p class="card-date">13/11/2022</p>
+            </div>
+            <div
+               v-for="note in notes"
+               :key="note.id"
+               class="card"
+               :style="{ backgroundColor: note.background }"
+            >
+               <h3 class="card-title">{{ note.title }}</h3>
+               <p class="card-body">
+                  {{ note.body }}
+               </p>
+               <p class="card-date">{{ note.date.toLocaleDateString() }}</p>
             </div>
          </div>
       </div>
@@ -104,7 +116,7 @@ const addNote = () => {
 };
 
 const getRandomColor = () => {
-   const color = "hsl(" + Math.random() * 360 + ", 100%, 75%)";
+   const color = "hsl(" + Math.random() * 360 + ", 75%, 75%)";
    return color;
 };
 </script>
